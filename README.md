@@ -18,7 +18,7 @@ Usage
   2. In your `onCreate` method (or `onCreateView` for a fragment), bind the
      accordion view to a class implementing the `RoboAccordionAdapter` interface.
 
-    ```
+    ```java
     public class DemoActivity extends Activity implements RoboAccordionAdapter {
       private RoboAccordionView accordionView;
       
@@ -30,9 +30,9 @@ Usage
       }
       ```
 
-  3. Implements methods of the RoboAccordionAdapter to provide accordion's segment count as well as header and content view of each segment.
+  3. Implement methods of the RoboAccordionAdapter to provide accordion's segment count as well as header and content view of each segment.
 
-      ```
+      ```java
       private String[] capitals = new String[]{"Athens", "Berlin", "London",
             "Helsinki", "Copenhagen", "Warsaw",
             "Stockholm", "Oslo", "Prague",
