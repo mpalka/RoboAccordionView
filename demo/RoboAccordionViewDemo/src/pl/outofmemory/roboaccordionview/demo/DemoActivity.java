@@ -28,6 +28,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
         setContentView(R.layout.main);
         accordionView = (RoboAccordionView) findViewById(R.id.accordion);
         accordionView.setAccordionAdapter(this);
+        accordionView.setListener(this);
     }
 
 
