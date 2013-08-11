@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -29,6 +30,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
         accordionView = (RoboAccordionView) findViewById(R.id.accordion);
         accordionView.setAccordionAdapter(this);
         accordionView.setListener(this);
+        accordionView.setAnimDuration(300);
     }
 
 
@@ -39,9 +41,9 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
 
     @Override
     public View getHeaderView(int index) {
-        TextView view = null;
-        view = new TextView(this);
-        view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        View view = LayoutInflater.from(this).inflate(R.layout.accordion_header, null);
+        TextView tv = (TextView) view.findViewById(R.id.header_text);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         switch (index) {
             case 0:
                 view.setBackgroundResource(R.color.dark_red);
@@ -53,7 +55,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
                 view.setBackgroundResource(R.color.dark_blue);
                 break;
         }
-        view.setText(String.format("Header %d", index));
+        tv.setText(String.format("Header %d", index));
         return view;
     }
 

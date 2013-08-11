@@ -205,7 +205,7 @@ public class RoboAccordionView extends LinearLayout {
                     Animation a = new ExpandAnimation(0, mPanelExpanded
                             .getMeasuredHeight(), mToggleView,
                             mPanelExpanded);
-                    a.setDuration(DEFAULT_ANIM_DURATION);
+                    a.setDuration(mAnimDuration);
                     a.setAnimationListener(new AccordionAnimationListener(
                             mToggleView, mPanelExpanded));
                     v.startAnimation(a);
@@ -213,7 +213,7 @@ public class RoboAccordionView extends LinearLayout {
                     Animation a = new ExpandAnimation(0, mPanelExpanded
                             .getMeasuredHeight(), mFillerView,
                             mPanelExpanded);
-                    a.setDuration(DEFAULT_ANIM_DURATION);
+                    a.setDuration(mAnimDuration);
                     a.setAnimationListener(new AccordionAnimationListener(
                             mFillerView, mPanelExpanded));
                     v.startAnimation(a);
