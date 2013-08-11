@@ -36,6 +36,7 @@ Usage
           setContentView(R.layout.main);
           accordionView = (RoboAccordionView) findViewById(R.id.accordion);
           accordionView.setAccordionAdapter(this);
+          accordionView.setAnimDuration(300);
       }
       ```
 
@@ -53,11 +54,11 @@ Usage
       }
   
       @Override
-      public View getHeaderView(int position) {
-          TextView view = null;
-          view = new TextView(this);
-          view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-          switch (position) {
+      public View getHeaderView(int index) {
+          View view = LayoutInflater.from(this).inflate(R.layout.accordion_header, null);
+          TextView tv = (TextView) view.findViewById(R.id.header_text);
+          tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+          switch (index) {
               case 0:
                   view.setBackgroundResource(R.color.dark_red);
                   break;
@@ -68,7 +69,7 @@ Usage
                   view.setBackgroundResource(R.color.dark_blue);
                   break;
           }
-          view.setText(String.format("Header %d", position));
+          tv.setText(String.format("Header %d", index));
           return view;
       }
   
@@ -98,7 +99,7 @@ Usage
           return view;
       }
       ```
-  4. Attach a listener to the `RoboAccordionView` to be notified about sections being expanded and collapsed
+  4. Attach a listener to the `RoboAccordionView` to be notified about segments being expanded and collapsed
 
       ```java
         accordionView.setListener(new RoboAccordionStateListener() {
