@@ -40,7 +40,7 @@ Usage
             "Kiev", "Bratislava", "Rome"};
       @Override
       public int getSegmentCount() {
-          return capitals.length;
+          return 3;
       }
   
       @Override
@@ -89,7 +89,21 @@ Usage
           return view;
       }
       ```
+4. Attach a listener to the RoboAccordionView to be notified about sections being expanded and collapsed.
 
+```java
+  accordionView.setListener(new RoboAccordionStateListener() {
+            @Override
+            public void onAccordionStateWillChange(int expandSegmentIndex, int collapseSegmentIndex) {
+                //TODO empty method stub
+            }
+
+            @Override
+            public void onAccordionStateChanged(int expandSegmentIndex, int collapseSegmentIndex) {
+                //TODO empty method stub
+            }
+        });
+```
 
 Developed By
 ============
