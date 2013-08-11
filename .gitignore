@@ -1,0 +1,10 @@
+
+.idea/workspace.xml
+
+.DS_Store
+
+*.class
+
+out/production/RoboAccordionViewDemo/RoboAccordionViewDemo.apk
+
+out/production/RoboAccordionViewDemo/RoboAccordionViewDemo.unaligned.apk
