@@ -3,6 +3,8 @@ RoboAccordionView for Android
 
 RoboAccordionView is a component that presents a list of collapsible/expandable segments. It is compatible with Android 2.1 and newer.
 
+![Demo application screenshot][1]
+
 Usage
 =====
 
@@ -128,3 +130,5 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+[1]: https://raw.github.com/mpalka/RoboAccordionView/master/screenshots/demo-application.png
