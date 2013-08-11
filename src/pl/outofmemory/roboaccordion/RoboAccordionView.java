@@ -35,12 +35,12 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class RoboAccordionView extends LinearLayout {
 
     private RoboAccordionAdapter mAccordionAdapter;
-    private RoboAccordionStateListener listener;
+    private RoboAccordionStateListener mListener;
     private LinearLayout mRootLayout;
-    private TextView fillerView;
+    private TextView mFillerView;
     private View mPanelExpanded;
     private boolean mAccordionAnimating;
-    private int ANIM_DURATION = 300;
+    private static final int ANIM_DURATION = 300;
 
     public RoboAccordionView(Context context) {
         super(context);
@@ -71,11 +71,11 @@ public class RoboAccordionView extends LinearLayout {
         headerView.setOnClickListener(new AccordionHeaderOnClickListener(contentView, index));
         //last item, add filler view
         if (index == mAccordionAdapter.getSegmentCount() - 1) {
-            fillerView = new TextView(getContext());
-            fillerView.setTag(-1);
-            fillerView.setBackgroundResource(R.color.transparent);
-            mRootLayout.addView(fillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
-            mPanelExpanded = fillerView;
+            mFillerView = new TextView(getContext());
+            mFillerView.setTag(-1);
+            mFillerView.setBackgroundResource(R.color.transparent);
+            mRootLayout.addView(mFillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
+            mPanelExpanded = mFillerView;
         }
     }
 
@@ -89,7 +89,7 @@ public class RoboAccordionView extends LinearLayout {
     }
 
     public void setListener(RoboAccordionStateListener listener) {
-        this.listener = listener;
+        this.mListener = listener;
     }
 
     private class ExpandAnimation extends Animation {
@@ -143,12 +143,12 @@ public class RoboAccordionView extends LinearLayout {
 
     private class AccordionHeaderOnClickListener implements View.OnClickListener {
 
-        private View toggleView;
+        private View mToggleView;
         private int mClickedSegmentIndex;
 
         private AccordionHeaderOnClickListener(View toggleView, int clickedSegmentIndex) {
 
-            this.toggleView = toggleView;
+            this.mToggleView = toggleView;
             this.mClickedSegmentIndex = clickedSegmentIndex;
         }
 
@@ -156,21 +156,21 @@ public class RoboAccordionView extends LinearLayout {
         public void onClick(View v) {
             if (!mAccordionAnimating) {
                 mAccordionAnimating = true;
-                if (mPanelExpanded != toggleView) {
+                if (mPanelExpanded != mToggleView) {
                     Animation a = new ExpandAnimation(0, mPanelExpanded
-                            .getMeasuredHeight(), toggleView,
+                            .getMeasuredHeight(), mToggleView,
                             mPanelExpanded);
                     a.setDuration(ANIM_DURATION);
                     a.setAnimationListener(new AccordionAnimationListener(
-                            toggleView, mPanelExpanded));
+                            mToggleView, mPanelExpanded));
                     v.startAnimation(a);
                 } else {
                     Animation a = new ExpandAnimation(0, mPanelExpanded
-                            .getMeasuredHeight(), fillerView,
+                            .getMeasuredHeight(), mFillerView,
                             mPanelExpanded);
                     a.setDuration(ANIM_DURATION);
                     a.setAnimationListener(new AccordionAnimationListener(
-                            fillerView, mPanelExpanded));
+                            mFillerView, mPanelExpanded));
                     v.startAnimation(a);
                 }
             }
@@ -193,15 +193,15 @@ public class RoboAccordionView extends LinearLayout {
 
             @Override
             public void onAnimationStart(Animation animation) {
-                if (listener != null) {
-                    listener.onAccordionStateWillChange(mExpandingSegmentIndex, mCollapsingSegmentIndex);
+                if (mListener != null) {
+                    mListener.onAccordionStateWillChange(mExpandingSegmentIndex, mCollapsingSegmentIndex);
                 }
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (listener != null) {
-                    listener.onAccordionStateChanged(mExpandingSegmentIndex, mCollapsingSegmentIndex);
+                if (mListener != null) {
+                    mListener.onAccordionStateChanged(mExpandingSegmentIndex, mCollapsingSegmentIndex);
                 }
                 mPanelExpanded = mExpandingView;
                 mAccordionAnimating = false;
