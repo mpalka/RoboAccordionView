@@ -89,21 +89,21 @@ Usage
           return view;
       }
       ```
-4. Attach a listener to the RoboAccordionView to be notified about sections being expanded and collapsed.
+  4. Attach a listener to the RoboAccordionView to be notified about sections being expanded and collapsed.
 
-```java
-  accordionView.setListener(new RoboAccordionStateListener() {
-            @Override
-            public void onAccordionStateWillChange(int expandSegmentIndex, int collapseSegmentIndex) {
-                //TODO empty method stub
-            }
-
-            @Override
-            public void onAccordionStateChanged(int expandSegmentIndex, int collapseSegmentIndex) {
-                //TODO empty method stub
-            }
-        });
-```
+      ```java
+        accordionView.setListener(new RoboAccordionStateListener() {
+                  @Override
+                  public void onAccordionStateWillChange(int expandSegmentIndex, int collapseSegmentIndex) {
+                      //TODO empty method stub
+                  }
+      
+                  @Override
+                  public void onAccordionStateChanged(int expandSegmentIndex, int collapseSegmentIndex) {
+                      //TODO empty method stub
+                  }
+              });
+      ```
 
 Developed By
 ============
