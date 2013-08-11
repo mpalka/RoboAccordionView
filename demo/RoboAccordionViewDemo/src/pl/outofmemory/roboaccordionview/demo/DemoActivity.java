@@ -1,6 +1,7 @@
 package pl.outofmemory.roboaccordionview.demo;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -79,6 +80,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
                 ListView lv = (ListView) view;
                 lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item_capital_row, capitals));
                 lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                lv.setCacheColorHint(Color.TRANSPARENT);
                 view.setBackgroundResource(R.color.light_blue);
                 break;
         }

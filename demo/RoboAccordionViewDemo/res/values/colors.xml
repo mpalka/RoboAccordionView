@@ -6,4 +6,5 @@
     <color name="dark_green">#88FF88</color>
     <color name="dark_blue">#0000AA</color>
     <color name="light_blue">#8888FF</color>
+    <color name="lv_color_hint">#00000000</color>
 </resources>
