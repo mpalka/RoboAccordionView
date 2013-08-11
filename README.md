@@ -40,7 +40,7 @@ Usage
             "Kiev", "Bratislava", "Rome"};
       @Override
       public int getSegmentCount() {
-          return capitals.length;
+          return 3;
       }
   
       @Override

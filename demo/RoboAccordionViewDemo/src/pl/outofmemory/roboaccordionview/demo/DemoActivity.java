@@ -2,18 +2,20 @@ package pl.outofmemory.roboaccordionview.demo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import pl.outofmemory.roboaccordion.RoboAccordionAdapter;
+import pl.outofmemory.roboaccordion.RoboAccordionStateListener;
 import pl.outofmemory.roboaccordion.RoboAccordionView;
 
 /**
  * Created by Marcin Palka on 11.08.2013.
  */
-public class DemoActivity extends Activity implements RoboAccordionAdapter {
+public class DemoActivity extends Activity implements RoboAccordionAdapter, RoboAccordionStateListener {
     private RoboAccordionView accordionView;
     private String[] capitals = new String[]{"Athens", "Berlin", "London",
             "Helsinki", "Copenhagen", "Warsaw",
@@ -35,49 +37,58 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter {
     }
 
     @Override
-    public View getHeaderView(int position) {
+    public View getHeaderView(int index) {
         TextView view = null;
         view = new TextView(this);
-        switch (position) {
+        view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        switch (index) {
             case 0:
                 view.setBackgroundResource(R.color.dark_red);
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 break;
             case 1:
                 view.setBackgroundResource(R.color.dark_green);
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 break;
             case 2:
                 view.setBackgroundResource(R.color.dark_blue);
-                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 break;
         }
-        view.setText(String.format("Header %d", position));
+        view.setText(String.format("Header %d", index));
         return view;
     }
 
     @Override
-    public View getContentView(int position) {
+    public View getContentView(int index) {
         View view = null;
-        switch (position) {
+        switch (index) {
             case 0:
                 view = new TextView(this);
-                view.setBackgroundResource(R.color.light_red);
-                ((TextView) view).setText(String.format("Content %d", position));
+                TextView tv1 = (TextView) view;
+                tv1.setText(String.format("Content %d", index));
                 break;
             case 1:
                 view = new TextView(this);
                 view.setBackgroundResource(R.color.light_green);
-                ((TextView) view).setText(String.format("Content %d", position));
+                TextView tv2 = (TextView) view;
+                tv2.setText(String.format("Content %d", index));
                 break;
             case 2:
                 view = new ListView(this);
-                ListView lv = (ListView)view;
+                ListView lv = (ListView) view;
                 lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item_capital_row, capitals));
                 lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                 view.setBackgroundResource(R.color.light_blue);
                 break;
         }
         return view;
+    }
+
+    @Override
+    public void onAccordionStateWillChange(int expandSegmentIndex, int collapseSegmentIndex) {
+        Log.i("DemoActivity", String.format("onAccordionStateWillChange:%d,%d", expandSegmentIndex, collapseSegmentIndex));
+    }
+
+    @Override
+    public void onAccordionStateChanged(int expandSegmentIndex, int collapseSegmentIndex) {
+        Log.i("DemoActivity", String.format("onAccordionStateChanged:%d,%d", expandSegmentIndex, collapseSegmentIndex));
     }
 }

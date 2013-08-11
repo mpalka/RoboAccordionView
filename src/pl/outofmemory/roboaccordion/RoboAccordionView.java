@@ -35,6 +35,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class RoboAccordionView extends LinearLayout {
 
     private RoboAccordionAdapter mAccordionAdapter;
+    private RoboAccordionStateListener listener;
     private LinearLayout mRootLayout;
     private TextView fillerView;
     private View mPanelExpanded;
@@ -52,8 +53,8 @@ public class RoboAccordionView extends LinearLayout {
         addView(mRootLayout, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
     }
 
-    public void setAccordionAdapter(RoboAccordionAdapter mAdapter) {
-        this.mAccordionAdapter = mAdapter;
+    public void setAccordionAdapter(RoboAccordionAdapter adapter) {
+        this.mAccordionAdapter = adapter;
         notifyDataSetChanged();
     }
 
@@ -65,11 +66,13 @@ public class RoboAccordionView extends LinearLayout {
         mRootLayout.addView(headerView, new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 0));
         View contentView = mAccordionAdapter.getContentView(index);
         contentView.setVisibility(View.GONE);
+        contentView.setTag(index);
         mRootLayout.addView(contentView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
-        headerView.setOnClickListener(new AccordionHeaderOnClickListener(contentView));
+        headerView.setOnClickListener(new AccordionHeaderOnClickListener(contentView, index));
         //last item, add filler view
         if (index == mAccordionAdapter.getSegmentCount() - 1) {
             fillerView = new TextView(getContext());
+            fillerView.setTag(-1);
             fillerView.setBackgroundResource(R.color.background_light);
             mRootLayout.addView(fillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
             mPanelExpanded = fillerView;
@@ -83,6 +86,10 @@ public class RoboAccordionView extends LinearLayout {
             addSegment(i);
         }
         requestLayout();
+    }
+
+    public void setListener(RoboAccordionStateListener listener) {
+        this.listener = listener;
     }
 
     private class ExpandAnimation extends Animation {
@@ -137,10 +144,12 @@ public class RoboAccordionView extends LinearLayout {
     private class AccordionHeaderOnClickListener implements View.OnClickListener {
 
         private View toggleView;
+        private int mClickedSegmentIndex;
 
-        private AccordionHeaderOnClickListener(View toggleView) {
+        private AccordionHeaderOnClickListener(View toggleView, int clickedSegmentIndex) {
 
             this.toggleView = toggleView;
+            this.mClickedSegmentIndex = clickedSegmentIndex;
         }
 
         @Override
@@ -171,19 +180,29 @@ public class RoboAccordionView extends LinearLayout {
 
             private View mExpandingView;
             private View mCollapsingView;
+            private int mCollapsingSegmentIndex=-1;
+            private int mExpandingSegmentIndex=-1;
 
             public AccordionAnimationListener(View expandingView, View collapsingView) {
                 super();
                 this.mExpandingView = expandingView;
                 this.mCollapsingView = collapsingView;
+                this.mExpandingSegmentIndex = (Integer)mExpandingView.getTag();
+                this.mCollapsingSegmentIndex = (Integer)mCollapsingView.getTag();
             }
 
             @Override
             public void onAnimationStart(Animation animation) {
+                if (listener != null) {
+                    listener.onAccordionStateWillChange(mExpandingSegmentIndex, mCollapsingSegmentIndex);
+                }
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                if (listener != null) {
+                    listener.onAccordionStateChanged(mExpandingSegmentIndex, mCollapsingSegmentIndex);
+                }
                 mPanelExpanded = mExpandingView;
                 mAccordionAnimating = false;
             }
