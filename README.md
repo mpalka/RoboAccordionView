@@ -30,7 +30,7 @@ Usage
       }
       ```
 
-  3. Implement methods of the RoboAccordionAdapter to provide accordion's segment count as well as header and content view of each segment.
+  3. Implement methods of the RoboAccordionAdapter to provide accordion's segment count as well as header and content view of each segment. Segments can be expanded or collapsed by clicking/tapping onto the header view.
 
       ```java
       private String[] capitals = new String[]{"Athens", "Berlin", "London",
