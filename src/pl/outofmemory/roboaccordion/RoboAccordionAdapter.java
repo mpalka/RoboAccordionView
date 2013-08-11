@@ -18,9 +18,8 @@ package pl.outofmemory.roboaccordion;
 import android.view.View;
 
 /**
- *
  * A custom adapter interface designed to provide header and content views for RoboAccordionView
- *
+ * <p/>
  * Created by Marcin Palka on 11.08.2013.
  */
 public interface RoboAccordionAdapter {
@@ -29,6 +28,7 @@ public interface RoboAccordionAdapter {
      * Returns a number of segments in the accordion.
      * For each segment a header and content view need
      * need to be provided in
+     *
      * @return a numer of segments in the accordion
      */
     public int getSegmentCount();
@@ -40,14 +40,17 @@ public interface RoboAccordionAdapter {
      * The header view should not provide any
      * clickable elements as it may interfere with the OnClickListener
      * set on the header by the RoboAccordionView code.
+     *
      * @return a view for a accordion segment header
      */
     public View getHeaderView(int index);
+
     /**
      * Returns a view that will be displayed as one of accordion's
      * section content. The content will be either expanded or collapsed
      * by tapping onto respective header view.
-     * @return  a view for a accordion segment content
+     *
+     * @return a view for a accordion segment content
      */
     public View getContentView(int index);
 }

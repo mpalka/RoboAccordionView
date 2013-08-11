@@ -6,6 +6,8 @@ RoboAccordionView is a component that presents a list of collapsible/expandable 
 Usage
 =====
 
+*Please note that this project has been created in Intellij Idea 12 and thus by default can be opened in Intellij Idea and/or Android Studio. To make it work with Eclipse and ADT you may need to use Eclipse's import funcion.*
+
 *For a working implementation of this project see the `demo/` folder.*
 
   1. Include the widget in your view. 

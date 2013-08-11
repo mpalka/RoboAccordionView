@@ -180,15 +180,15 @@ public class RoboAccordionView extends LinearLayout {
 
             private View mExpandingView;
             private View mCollapsingView;
-            private int mCollapsingSegmentIndex=-1;
-            private int mExpandingSegmentIndex=-1;
+            private int mCollapsingSegmentIndex = -1;
+            private int mExpandingSegmentIndex = -1;
 
             public AccordionAnimationListener(View expandingView, View collapsingView) {
                 super();
                 this.mExpandingView = expandingView;
                 this.mCollapsingView = collapsingView;
-                this.mExpandingSegmentIndex = (Integer)mExpandingView.getTag();
-                this.mCollapsingSegmentIndex = (Integer)mCollapsingView.getTag();
+                this.mExpandingSegmentIndex = (Integer) mExpandingView.getTag();
+                this.mCollapsingSegmentIndex = (Integer) mCollapsingView.getTag();
             }
 
             @Override

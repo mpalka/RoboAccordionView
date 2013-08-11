@@ -28,7 +28,6 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
         setContentView(R.layout.main);
         accordionView = (RoboAccordionView) findViewById(R.id.accordion);
         accordionView.setAccordionAdapter(this);
-        accordionView.setListener(this);
     }
 
 
@@ -84,8 +83,8 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
     }
 
     @Override
-    public void onAccordionStateWillChange(int expandSegmentIndex, int collapseSegmentIndex) {
-        Log.i("DemoActivity", String.format("onAccordionStateWillChange:%d,%d", expandSegmentIndex, collapseSegmentIndex));
+    public void onAccordionStateWillChange(int expandingSegmentIndex, int collapsingSegmentIndex) {
+        Log.i("DemoActivity", String.format("onAccordionStateWillChange:%d,%d", expandingSegmentIndex, collapsingSegmentIndex));
     }
 
     @Override
