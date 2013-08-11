@@ -3,6 +3,11 @@ RoboAccordionView for Android
 
 RoboAccordionView is a component that presents a list of collapsible/expandable segments. It is compatible with Android 2.1 and newer.
 
+Sample application
+==================
+
+Try out the [sample application ][2].
+
 ![Demo application screenshot][1]
 
 Usage
@@ -34,7 +39,7 @@ Usage
       }
       ```
 
-  3. Implement methods of the RoboAccordionAdapter to provide accordion's segment count as well as header and content view of each segment. Segments can be expanded or collapsed by clicking/tapping onto the header view.
+  3. Implement methods of the `RoboAccordionAdapter` to provide accordion's segment count (`getSegmentCount`) as well as header (`getHeaderView`) and content view (`getContentView`) of each segment. Segments can be expanded or collapsed by clicking/tapping onto the header view.
 
       ```java
       private String[] capitals = new String[]{"Athens", "Berlin", "London",
@@ -93,7 +98,7 @@ Usage
           return view;
       }
       ```
-  4. Attach a listener to the RoboAccordionView to be notified about sections being expanded and collapsed.
+  4. Attach a listener to the `RoboAccordionView` to be notified about sections being expanded and collapsed
 
       ```java
         accordionView.setListener(new RoboAccordionStateListener() {
@@ -132,3 +137,4 @@ License
     limitations under the License.
 
 [1]: https://raw.github.com/mpalka/RoboAccordionView/master/screenshots/demo-application.png
+[2]: https://github.com/mpalka/RoboAccordionView/blob/master/demo/RoboAccordionViewDemo/RoboAccordionViewDemo.apk
