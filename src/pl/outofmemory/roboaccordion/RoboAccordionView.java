@@ -30,6 +30,11 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
+ * This class provides a widget to create accordion views
+ * with expandable/collapsible segments.
+ * Views to be displayed as segment's headers and content
+ * are provided by a class implementing RoboAccordionAdapter interface
+ * <p/>
  * Created by Marcin Palka on 11.08.2013.
  */
 public class RoboAccordionView extends LinearLayout {
@@ -40,12 +45,16 @@ public class RoboAccordionView extends LinearLayout {
     private TextView mFillerView;
     private View mPanelExpanded;
     private boolean mAccordionAnimating;
-    private static final int ANIM_DURATION = 300;
+    private static final int DEFAULT_ANIM_DURATION = 300;
+    private int mAnimDuration = DEFAULT_ANIM_DURATION;
 
-    public RoboAccordionView(Context context) {
-        super(context);
-    }
 
+    /**
+     * Default constructor
+     *
+     * @param context context
+     * @param attrs   attributes
+     */
     public RoboAccordionView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mRootLayout = new LinearLayout(getContext());
@@ -53,6 +62,11 @@ public class RoboAccordionView extends LinearLayout {
         addView(mRootLayout, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
     }
 
+    /**
+     * Method to set the adapter that will provide views for segment headers and content
+     *
+     * @param adapter an instance of RoboAccordionAdapter
+     */
     public void setAccordionAdapter(RoboAccordionAdapter adapter) {
         this.mAccordionAdapter = adapter;
         notifyDataSetChanged();
@@ -79,6 +93,10 @@ public class RoboAccordionView extends LinearLayout {
         }
     }
 
+    /**
+     * Notifies the view that the backing data has been changed
+     * and the view needs to be refreshed
+     */
     public void notifyDataSetChanged() {
         mRootLayout.removeAllViews();
         final int count = mAccordionAdapter.getSegmentCount();
@@ -88,8 +106,35 @@ public class RoboAccordionView extends LinearLayout {
         requestLayout();
     }
 
+    /**
+     * Set the listener that will be notified about the changes
+     * in the RoboAccordionView. The listener will be notified
+     * prior and after any section is expanded and collapsed.
+     * Only a single listener can be supported. Call this method
+     * with null parameter to remove the listener.
+     *
+     * @param listener an instance of RoboAccordionStateListener
+     */
     public void setListener(RoboAccordionStateListener listener) {
         this.mListener = listener;
+    }
+
+    /**
+     * Returns animation duration in miliseconds
+     *
+     * @return animation duration in miliseconds
+     */
+    public int getAnimDuration() {
+        return mAnimDuration;
+    }
+
+    /**
+     * Sets duration of a single expand/collapse animation
+     *
+     * @param animDuration animation duration in miliseconds
+     */
+    public void setAnimDuration(int animDuration) {
+        this.mAnimDuration = animDuration;
     }
 
     private class ExpandAnimation extends Animation {
@@ -160,7 +205,7 @@ public class RoboAccordionView extends LinearLayout {
                     Animation a = new ExpandAnimation(0, mPanelExpanded
                             .getMeasuredHeight(), mToggleView,
                             mPanelExpanded);
-                    a.setDuration(ANIM_DURATION);
+                    a.setDuration(DEFAULT_ANIM_DURATION);
                     a.setAnimationListener(new AccordionAnimationListener(
                             mToggleView, mPanelExpanded));
                     v.startAnimation(a);
@@ -168,7 +213,7 @@ public class RoboAccordionView extends LinearLayout {
                     Animation a = new ExpandAnimation(0, mPanelExpanded
                             .getMeasuredHeight(), mFillerView,
                             mPanelExpanded);
-                    a.setDuration(ANIM_DURATION);
+                    a.setDuration(DEFAULT_ANIM_DURATION);
                     a.setAnimationListener(new AccordionAnimationListener(
                             mFillerView, mPanelExpanded));
                     v.startAnimation(a);
