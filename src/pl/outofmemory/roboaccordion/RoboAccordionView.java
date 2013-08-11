@@ -73,7 +73,7 @@ public class RoboAccordionView extends LinearLayout {
         if (index == mAccordionAdapter.getSegmentCount() - 1) {
             fillerView = new TextView(getContext());
             fillerView.setTag(-1);
-            fillerView.setBackgroundResource(R.color.background_light);
+            fillerView.setBackgroundResource(R.color.transparent);
             mRootLayout.addView(fillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
             mPanelExpanded = fillerView;
         }

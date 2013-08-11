@@ -23,13 +23,15 @@ package pl.outofmemory.roboaccordion;
 public interface RoboAccordionStateListener {
     /**
      * Called prior the change in the accordion to be applied
-     * @param expandSegmentIndex index of an accordion segment to be expanded
+     * @param expandSegmentIndex index of an accordion segment to be expanded.
+     *                           A value of -1 expandSegmentIndex means that all views will be collapsed
      * @param collapseSegmentIndex index of an accordion segment to be collapsed
      */
     public void onAccordionStateWillChange(int expandSegmentIndex, int collapseSegmentIndex);
     /**
-     * Called after the change in the accordion has been applied
-     * @param expandSegmentIndex index of an accordion segment that has been expanded
+     * Called after the change in the accordion has been applied.
+     * @param expandSegmentIndex index of an accordion segment that has been expanded.
+     *                           A value of -1 expandSegmentIndex means that all views have been be collapsed
      * @param collapseSegmentIndex index of an accordion segment that has been collapsed
      */
     public void onAccordionStateChanged(int expandSegmentIndex, int collapseSegmentIndex);

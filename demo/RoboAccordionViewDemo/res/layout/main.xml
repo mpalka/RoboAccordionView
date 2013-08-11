@@ -8,6 +8,7 @@
     <pl.outofmemory.roboaccordion.RoboAccordionView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/accordion"/>
+            android:id="@+id/accordion"
+            android:background="@android:color/background_light"/>
 </LinearLayout>
 
