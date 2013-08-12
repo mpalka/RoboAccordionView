@@ -19,10 +19,14 @@ Usage
 
   1. Include the widget in your view. 
 
-        <pl.outofmemory.roboaccordion.RoboAccordionView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/accordion"/>
+      ```xml
+      <pl.outofmemory.roboaccordion.RoboAccordionView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/accordion"/>
+      ```
+        
+  **Currently it's not supported to embed the RoboAccordionView in a ScrollView**
 
   2. In your `onCreate` method (or `onCreateView` for a fragment), bind the
      accordion view to a class implementing the `RoboAccordionAdapter` interface.
@@ -74,19 +78,19 @@ Usage
       }
   
       @Override
-      public View getContentView(int position) {
+      public View getContentView(int index) {
           View view = null;
-          switch (position) {
+          switch (index) {
               case 0:
                   view = new TextView(this);
                   TextView tv1 = (TextView)view;
-                  tv1.setText(String.format("Content %d", position));
+                  tv1.setText(String.format("Content %d", index));
                   break;
               case 1:
                   view = new TextView(this);
                   view.setBackgroundResource(R.color.light_green);
                   TextView tv2 = (TextView)view;
-                  tv2.setText(String.format("Content %d", position));
+                  tv2.setText(String.format("Content %d", index));
                   break;
               case 2:
                   view = new ListView(this);
@@ -138,4 +142,4 @@ License
     limitations under the License.
 
 [1]: https://raw.github.com/mpalka/RoboAccordionView/master/screenshots/demo-application.png
-[2]: https://github.com/mpalka/RoboAccordionView/blob/master/demo/RoboAccordionViewDemo/RoboAccordionViewDemo.apk
+[2]: https://raw.github.com/mpalka/RoboAccordionView/master/demo/RoboAccordionViewDemo/RoboAccordionViewDemo.apk
