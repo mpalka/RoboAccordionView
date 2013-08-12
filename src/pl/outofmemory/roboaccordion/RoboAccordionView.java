@@ -53,9 +53,9 @@ public class RoboAccordionView extends LinearLayout {
     private List<View> mContentViews;
     private RoboAccordionTogglePolicy mCurrentTogglePolicy;
     private View mPreviouslyExpandedView;
-    private final RoboAccordionTogglePolicy HISTORY_TOGGLE_POLICY = new HistoryTogglePolicyRobo();
-    private final RoboAccordionTogglePolicy FILLER_TOGGLE_POLICY = new FillerTogglePolicyRobo();
-    private final RoboAccordionTogglePolicy NEXTPREV_TOGGLE_POLICY = new NextPreviousTogglePolicyRobo();
+    private final RoboAccordionTogglePolicy HISTORY_TOGGLE_POLICY = new HistoryTogglePolicy();
+    private final RoboAccordionTogglePolicy FILLER_TOGGLE_POLICY = new FillerTogglePolicy();
+    private final RoboAccordionTogglePolicy NEXTPREV_TOGGLE_POLICY = new NextPreviousTogglePolicy();
 
 
     /**
@@ -299,41 +299,7 @@ public class RoboAccordionView extends LinearLayout {
         }
     }
 
-    private class PreviousTogglePolicyRobo implements RoboAccordionTogglePolicy {
-
-        @Override
-        public int getExpandedViewIndex() {
-            return 0;
-        }
-
-        @Override
-        public View getContentViewToExpand(int collapsingIndex) {
-            if (collapsingIndex == 0) {
-                return mContentViews.get(mAccordionAdapter.getSegmentCount() - 1);
-            } else {
-                return mContentViews.get(collapsingIndex - 1);
-            }
-        }
-    }
-
-    private class NextTogglePolicyRobo implements RoboAccordionTogglePolicy {
-
-        @Override
-        public int getExpandedViewIndex() {
-            return 0;
-        }
-
-        @Override
-        public View getContentViewToExpand(int collapsingIndex) {
-            if (collapsingIndex == mAccordionAdapter.getSegmentCount() - 1) {
-                return mContentViews.get(0);
-            } else {
-                return mContentViews.get(collapsingIndex + 1);
-            }
-        }
-    }
-
-    private class HistoryTogglePolicyRobo implements RoboAccordionTogglePolicy {
+    private class HistoryTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
         public int getExpandedViewIndex() {
@@ -349,7 +315,7 @@ public class RoboAccordionView extends LinearLayout {
         }
     }
 
-    private class FillerTogglePolicyRobo implements RoboAccordionTogglePolicy {
+    private class FillerTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
         public int getExpandedViewIndex() {
@@ -362,7 +328,7 @@ public class RoboAccordionView extends LinearLayout {
         }
     }
 
-    private class NextPreviousTogglePolicyRobo implements RoboAccordionTogglePolicy {
+    private class NextPreviousTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
         public int getExpandedViewIndex() {
