@@ -26,7 +26,7 @@ Usage
           android:id="@+id/accordion"/>
       ```
         
-  **Currently it's not supported to embed the RoboAccordionView in a ScrollView**
+  **Currently it's not supported to embed the RoboAccordionView inside a ScrollView**
 
   2. In your `onCreate` method (or `onCreateView` for a fragment), bind the
      accordion view to a class implementing the `RoboAccordionAdapter` interface.
