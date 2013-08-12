@@ -118,6 +118,35 @@ Usage
                   }
               });
       ```
+  5. You may override the behavior of the RoboAccordionView in terms of what view is being expanded when one view is collapsed and what view should be initially expanded when the RoboAccordionView loads by providing so called toggle policy. The toggle policy is simply implemementation of RoboAccordionTogglePolicy interface. You set it by calling the setTogglePolicy on the RoboAccordionView instance. That method should be called before the accordion view is rendered on screen.
+
+        ```java
+        public void onCreate(Bundle savedInstanceState) {
+            ...
+            accordionView.setTogglePolicy(new CustomAccordionTogglePolicy());
+        }
+
+        private class CustomAccordionTogglePolicy implements RoboAccordionTogglePolicy {
+
+            @Override
+            public int getExpandedViewIndex() {
+                return 0;
+            }
+
+            @Override
+            public View getContentViewToExpand(int collapsingIndex) {
+                switch (collapsingIndex) {
+                    case 0:
+                        return secondContentView;
+                    case 1:
+                        return thirdContentView;
+                    case 2:
+                        return secondContentView;
+                }
+                return null;
+            }
+        }
+        ```
 
 Developed By
 ============
