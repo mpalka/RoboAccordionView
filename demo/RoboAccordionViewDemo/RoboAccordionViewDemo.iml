@@ -16,7 +16,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="RoboAccordionView" exported="" />
-    <orderEntry type="library" exported="" name="nineoldandroids-2.4.0" level="project" />
   </component>
 </module>
 

@@ -37,7 +37,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
         accordionView.setAccordionAdapter(this);
         accordionView.setListener(this);
         accordionView.setAnimDuration(300);
-        accordionView.setTogglePolicy(new CustomAccordionTogglePolicy());
+        //accordionView.setTogglePolicy(new CustomAccordionTogglePolicy());
     }
 
 
