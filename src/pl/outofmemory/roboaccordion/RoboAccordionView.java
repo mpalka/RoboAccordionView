@@ -26,6 +26,9 @@ import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -47,6 +50,12 @@ public class RoboAccordionView extends LinearLayout {
     private boolean mAccordionAnimating;
     private static final int DEFAULT_ANIM_DURATION = 300;
     private int mAnimDuration = DEFAULT_ANIM_DURATION;
+    private List<View> mContentViews;
+    private RoboAccordionTogglePolicy mCurrentTogglePolicy;
+    private View mPreviouslyExpandedView;
+    private final RoboAccordionTogglePolicy HISTORY_TOGGLE_POLICY = new HistoryTogglePolicyRobo();
+    private final RoboAccordionTogglePolicy FILLER_TOGGLE_POLICY = new FillerTogglePolicyRobo();
+    private final RoboAccordionTogglePolicy NEXTPREV_TOGGLE_POLICY = new NextPreviousTogglePolicyRobo();
 
 
     /**
@@ -57,9 +66,24 @@ public class RoboAccordionView extends LinearLayout {
      */
     public RoboAccordionView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mCurrentTogglePolicy = HISTORY_TOGGLE_POLICY;
         mRootLayout = new LinearLayout(getContext());
         mRootLayout.setOrientation(VERTICAL);
         addView(mRootLayout, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+    }
+
+    /**
+     * Method to set RoboAccordionView toggle policy. The policy definition is implementation
+     * of the RoboAccordionTogglePolicy interface and it provides RoboAccordionView with information on
+     * what is the view that should be expanded when RoboAccordionView loads and what is the next
+     * content view to be expanded when the current view is collapsed.
+     * This method need to be called just after the AccordionView has been constructed and before it
+     * is rendered on screen.
+     *
+     * @param mCurrentTogglePolicy implementation of RoboAccordionTogglePolicy
+     */
+    public void setTogglePolicy(RoboAccordionTogglePolicy mCurrentTogglePolicy) {
+        this.mCurrentTogglePolicy = mCurrentTogglePolicy;
     }
 
     /**
@@ -79,17 +103,30 @@ public class RoboAccordionView extends LinearLayout {
         View headerView = mAccordionAdapter.getHeaderView(index);
         mRootLayout.addView(headerView, new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 0));
         View contentView = mAccordionAdapter.getContentView(index);
-        contentView.setVisibility(View.GONE);
+        if (mCurrentTogglePolicy.getExpandedViewIndex() == index) {
+            contentView.setVisibility(View.VISIBLE);
+            mPanelExpanded = contentView;
+        } else {
+            contentView.setVisibility(View.GONE);
+        }
         contentView.setTag(index);
         mRootLayout.addView(contentView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
         headerView.setOnClickListener(new AccordionHeaderOnClickListener(contentView, index));
+
+        mContentViews.add(contentView);
+
         //last item, add filler view
         if (index == mAccordionAdapter.getSegmentCount() - 1) {
             mFillerView = new TextView(getContext());
             mFillerView.setTag(-1);
             mFillerView.setBackgroundResource(R.color.transparent);
             mRootLayout.addView(mFillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
-            mPanelExpanded = mFillerView;
+            if (mCurrentTogglePolicy.getExpandedViewIndex() == -1) {
+                mFillerView.setVisibility(View.VISIBLE);
+                mPanelExpanded = mFillerView;
+            } else {
+                mFillerView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -99,6 +136,7 @@ public class RoboAccordionView extends LinearLayout {
      */
     public void notifyDataSetChanged() {
         mRootLayout.removeAllViews();
+        mContentViews = new ArrayList<View>();
         final int count = mAccordionAdapter.getSegmentCount();
         for (int i = 0; i < count; i++) {
             addSegment(i);
@@ -210,12 +248,13 @@ public class RoboAccordionView extends LinearLayout {
                             mToggleView, mPanelExpanded));
                     v.startAnimation(a);
                 } else {
+                    View viewToBeExpanded = mCurrentTogglePolicy.getContentViewToExpand(mClickedSegmentIndex);
                     Animation a = new ExpandAnimation(0, mPanelExpanded
-                            .getMeasuredHeight(), mFillerView,
+                            .getMeasuredHeight(), viewToBeExpanded,
                             mPanelExpanded);
                     a.setDuration(mAnimDuration);
                     a.setAnimationListener(new AccordionAnimationListener(
-                            mFillerView, mPanelExpanded));
+                            viewToBeExpanded, mPanelExpanded));
                     v.startAnimation(a);
                 }
             }
@@ -249,12 +288,93 @@ public class RoboAccordionView extends LinearLayout {
                     mListener.onAccordionStateChanged(mExpandingSegmentIndex, mCollapsingSegmentIndex);
                 }
                 mPanelExpanded = mExpandingView;
+                mPreviouslyExpandedView = mCollapsingView;
                 mAccordionAnimating = false;
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
                 // TODO Auto-generated method stub
+            }
+        }
+    }
+
+    private class PreviousTogglePolicyRobo implements RoboAccordionTogglePolicy {
+
+        @Override
+        public int getExpandedViewIndex() {
+            return 0;
+        }
+
+        @Override
+        public View getContentViewToExpand(int collapsingIndex) {
+            if (collapsingIndex == 0) {
+                return mContentViews.get(mAccordionAdapter.getSegmentCount() - 1);
+            } else {
+                return mContentViews.get(collapsingIndex - 1);
+            }
+        }
+    }
+
+    private class NextTogglePolicyRobo implements RoboAccordionTogglePolicy {
+
+        @Override
+        public int getExpandedViewIndex() {
+            return 0;
+        }
+
+        @Override
+        public View getContentViewToExpand(int collapsingIndex) {
+            if (collapsingIndex == mAccordionAdapter.getSegmentCount() - 1) {
+                return mContentViews.get(0);
+            } else {
+                return mContentViews.get(collapsingIndex + 1);
+            }
+        }
+    }
+
+    private class HistoryTogglePolicyRobo implements RoboAccordionTogglePolicy {
+
+        @Override
+        public int getExpandedViewIndex() {
+            return 0;
+        }
+
+        @Override
+        public View getContentViewToExpand(int collapsingIndex) {
+            if (mPreviouslyExpandedView == null) {
+                return NEXTPREV_TOGGLE_POLICY.getContentViewToExpand(collapsingIndex);
+            }
+            return mPreviouslyExpandedView;
+        }
+    }
+
+    private class FillerTogglePolicyRobo implements RoboAccordionTogglePolicy {
+
+        @Override
+        public int getExpandedViewIndex() {
+            return 0;
+        }
+
+        @Override
+        public View getContentViewToExpand(int collapsingIndex) {
+            return mFillerView;
+        }
+    }
+
+    private class NextPreviousTogglePolicyRobo implements RoboAccordionTogglePolicy {
+
+        @Override
+        public int getExpandedViewIndex() {
+            return 0;
+        }
+
+        @Override
+        public View getContentViewToExpand(int collapsingIndex) {
+            if (collapsingIndex == mAccordionAdapter.getSegmentCount() - 1) {
+                return mContentViews.get(collapsingIndex - 1);
+            } else {
+                return mContentViews.get(collapsingIndex + 1);
             }
         }
     }

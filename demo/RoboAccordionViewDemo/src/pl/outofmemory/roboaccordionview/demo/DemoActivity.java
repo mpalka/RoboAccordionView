@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import pl.outofmemory.roboaccordion.RoboAccordionAdapter;
 import pl.outofmemory.roboaccordion.RoboAccordionStateListener;
+import pl.outofmemory.roboaccordion.RoboAccordionTogglePolicy;
 import pl.outofmemory.roboaccordion.RoboAccordionView;
 
 /**
@@ -19,6 +20,10 @@ import pl.outofmemory.roboaccordion.RoboAccordionView;
  */
 public class DemoActivity extends Activity implements RoboAccordionAdapter, RoboAccordionStateListener {
     private RoboAccordionView accordionView;
+    private View firstContentView;
+    private View secondContentView;
+    private View thirdContentView;
+
     private String[] capitals = new String[]{"Athens", "Berlin", "London",
             "Helsinki", "Copenhagen", "Warsaw",
             "Stockholm", "Oslo", "Prague",
@@ -32,6 +37,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
         accordionView.setAccordionAdapter(this);
         accordionView.setListener(this);
         accordionView.setAnimDuration(300);
+        accordionView.setTogglePolicy(new CustomAccordionTogglePolicy());
     }
 
 
@@ -68,12 +74,14 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
                 view = new TextView(this);
                 TextView tv1 = (TextView) view;
                 tv1.setText(String.format("Content %d", index));
+                firstContentView = view;
                 break;
             case 1:
                 view = new TextView(this);
                 view.setBackgroundResource(R.color.light_green);
                 TextView tv2 = (TextView) view;
                 tv2.setText(String.format("Content %d", index));
+                secondContentView = view;
                 break;
             case 2:
                 view = new ListView(this);
@@ -82,6 +90,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
                 lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                 lv.setCacheColorHint(Color.TRANSPARENT);
                 view.setBackgroundResource(R.color.light_blue);
+                thirdContentView = view;
                 break;
         }
         return view;
@@ -95,5 +104,26 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
     @Override
     public void onAccordionStateChanged(int expandSegmentIndex, int collapseSegmentIndex) {
         Log.i("DemoActivity", String.format("onAccordionStateChanged:%d,%d", expandSegmentIndex, collapseSegmentIndex));
+    }
+
+    private class CustomAccordionTogglePolicy implements RoboAccordionTogglePolicy {
+
+        @Override
+        public int getExpandedViewIndex() {
+            return 0;
+        }
+
+        @Override
+        public View getContentViewToExpand(int collapsingIndex) {
+            switch (collapsingIndex) {
+                case 0:
+                    return secondContentView;
+                case 1:
+                    return thirdContentView;
+                case 2:
+                    return secondContentView;
+            }
+            return null;
+        }
     }
 }
