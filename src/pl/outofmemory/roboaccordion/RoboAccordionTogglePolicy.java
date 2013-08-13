@@ -18,11 +18,12 @@ public interface RoboAccordionTogglePolicy {
     public int getFirstViewToExpandIndex();
 
     /**
-     * This method should return a reference to a view that need to be expaned
-     * when a view of index=collapsingIndex collapses
+     * This method should return an index of a segment that need to be expaned
+     * when a view of index=collapsingIndex collapses. Return -1 if you want to
+     * the remaining space be filled with a filler/spacer view
      *
      * @param collapsingIndex - index of collapsing viw
-     * @return a reference to a view to be expanded
+     * @return an index of a segment to be expanded
      */
     public int getNextViewToExpandIndex(int collapsingIndex);
 }
