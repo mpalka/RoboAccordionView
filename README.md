@@ -129,22 +129,22 @@ Usage
       private class CustomAccordionTogglePolicy implements RoboAccordionTogglePolicy {
     
           @Override
-          public int getExpandedViewIndex() {
-              return 0;
-          }
-    
-          @Override
-          public View getContentViewToExpand(int collapsingIndex) {
-              switch (collapsingIndex) {
-                  case 0:
-                      return secondContentView;
-                  case 1:
-                      return thirdContentView;
-                  case 2:
-                      return secondContentView;
+              public int getFirstViewToExpandIndex() {
+                  return 0;
               }
-              return null;
-          }
+
+              @Override
+              public int getNextViewToExpandIndex(int collapsingIndex) {
+                  switch (collapsingIndex) {
+                      case 0:
+                          return 1;
+                      case 1:
+                          return 2;
+                      case 2:
+                          return 1;
+                  }
+                  return -1;
+              }
       }
     ```
 
