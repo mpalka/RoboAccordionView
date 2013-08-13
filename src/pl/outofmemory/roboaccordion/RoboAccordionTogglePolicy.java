@@ -1,7 +1,5 @@
 package pl.outofmemory.roboaccordion;
 
-import android.view.View;
-
 /**
  * The RoboAccordionTogglePolicy should be implemented to provide
  * custom policy that will tell the RoboAccordionView what view needs to be
@@ -17,7 +15,7 @@ public interface RoboAccordionTogglePolicy {
      *
      * @return index of a view to be expanded on load
      */
-    public int getExpandedViewIndex();
+    public int getFirstViewToExpandIndex();
 
     /**
      * This method should return a reference to a view that need to be expaned
@@ -26,5 +24,5 @@ public interface RoboAccordionTogglePolicy {
      * @param collapsingIndex - index of collapsing viw
      * @return a reference to a view to be expanded
      */
-    public View getContentViewToExpand(int collapsingIndex);
+    public int getNextViewToExpandIndex(int collapsingIndex);
 }

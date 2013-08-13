@@ -37,7 +37,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
         accordionView.setAccordionAdapter(this);
         accordionView.setListener(this);
         accordionView.setAnimDuration(300);
-        //accordionView.setTogglePolicy(new CustomAccordionTogglePolicy());
+        accordionView.setTogglePolicy(new CustomAccordionTogglePolicy());
     }
 
 
@@ -109,21 +109,21 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
     private class CustomAccordionTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getExpandedViewIndex() {
+        public int getFirstViewToExpandIndex() {
             return 0;
         }
 
         @Override
-        public View getContentViewToExpand(int collapsingIndex) {
+        public int getNextViewToExpandIndex(int collapsingIndex) {
             switch (collapsingIndex) {
                 case 0:
-                    return secondContentView;
+                    return 1;
                 case 1:
-                    return thirdContentView;
+                    return 2;
                 case 2:
-                    return secondContentView;
+                    return 1;
             }
-            return null;
+            return -1;
         }
     }
 }

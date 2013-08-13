@@ -52,7 +52,7 @@ public class RoboAccordionView extends LinearLayout {
     private int mAnimDuration = DEFAULT_ANIM_DURATION;
     private List<View> mContentViews;
     private RoboAccordionTogglePolicy mCurrentTogglePolicy;
-    private View mPreviouslyExpandedView;
+    private int mPreviouslyExpandedIndex = -1;
     private final RoboAccordionTogglePolicy HISTORY_TOGGLE_POLICY = new HistoryTogglePolicy();
     private final RoboAccordionTogglePolicy FILLER_TOGGLE_POLICY = new FillerTogglePolicy();
     private final RoboAccordionTogglePolicy NEXTPREV_TOGGLE_POLICY = new NextPreviousTogglePolicy();
@@ -103,7 +103,7 @@ public class RoboAccordionView extends LinearLayout {
         View headerView = mAccordionAdapter.getHeaderView(index);
         mRootLayout.addView(headerView, new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 0));
         View contentView = mAccordionAdapter.getContentView(index);
-        if (mCurrentTogglePolicy.getExpandedViewIndex() == index) {
+        if (mCurrentTogglePolicy.getFirstViewToExpandIndex() == index) {
             contentView.setVisibility(View.VISIBLE);
             mPanelExpanded = contentView;
         } else {
@@ -121,7 +121,7 @@ public class RoboAccordionView extends LinearLayout {
             mFillerView.setTag(-1);
             mFillerView.setBackgroundResource(R.color.transparent);
             mRootLayout.addView(mFillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
-            if (mCurrentTogglePolicy.getExpandedViewIndex() == -1) {
+            if (mCurrentTogglePolicy.getFirstViewToExpandIndex() == -1) {
                 mFillerView.setVisibility(View.VISIBLE);
                 mPanelExpanded = mFillerView;
             } else {
@@ -248,7 +248,15 @@ public class RoboAccordionView extends LinearLayout {
                             mToggleView, mPanelExpanded));
                     v.startAnimation(a);
                 } else {
-                    View viewToBeExpanded = mCurrentTogglePolicy.getContentViewToExpand(mClickedSegmentIndex);
+                    //check next view to be expanded based on the toggle policy
+                    int nextToExpand = mCurrentTogglePolicy.getNextViewToExpandIndex(mClickedSegmentIndex);
+                    View viewToBeExpanded = null;
+                    //if next index equals -1 then use the filler view
+                    if (nextToExpand != -1) {
+                        viewToBeExpanded = mContentViews.get(nextToExpand);
+                    } else {
+                        viewToBeExpanded = mFillerView;
+                    }
                     Animation a = new ExpandAnimation(0, mPanelExpanded
                             .getMeasuredHeight(), viewToBeExpanded,
                             mPanelExpanded);
@@ -288,7 +296,7 @@ public class RoboAccordionView extends LinearLayout {
                     mListener.onAccordionStateChanged(mExpandingSegmentIndex, mCollapsingSegmentIndex);
                 }
                 mPanelExpanded = mExpandingView;
-                mPreviouslyExpandedView = mCollapsingView;
+                mPreviouslyExpandedIndex = this.mCollapsingSegmentIndex;
                 mAccordionAnimating = false;
             }
 
@@ -302,45 +310,45 @@ public class RoboAccordionView extends LinearLayout {
     private class HistoryTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getExpandedViewIndex() {
+        public int getFirstViewToExpandIndex() {
             return 0;
         }
 
         @Override
-        public View getContentViewToExpand(int collapsingIndex) {
-            if (mPreviouslyExpandedView == null) {
-                return NEXTPREV_TOGGLE_POLICY.getContentViewToExpand(collapsingIndex);
+        public int getNextViewToExpandIndex(int collapsingIndex) {
+            if (mPreviouslyExpandedIndex == -1) {
+                return NEXTPREV_TOGGLE_POLICY.getNextViewToExpandIndex(collapsingIndex);
             }
-            return mPreviouslyExpandedView;
+            return mPreviouslyExpandedIndex;
         }
     }
 
     private class FillerTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getExpandedViewIndex() {
+        public int getFirstViewToExpandIndex() {
             return 0;
         }
 
         @Override
-        public View getContentViewToExpand(int collapsingIndex) {
-            return mFillerView;
+        public int getNextViewToExpandIndex(int collapsingIndex) {
+            return -1;
         }
     }
 
     private class NextPreviousTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getExpandedViewIndex() {
+        public int getFirstViewToExpandIndex() {
             return 0;
         }
 
         @Override
-        public View getContentViewToExpand(int collapsingIndex) {
+        public int getNextViewToExpandIndex(int collapsingIndex) {
             if (collapsingIndex == mAccordionAdapter.getSegmentCount() - 1) {
-                return mContentViews.get(collapsingIndex - 1);
+                return collapsingIndex - 1;
             } else {
-                return mContentViews.get(collapsingIndex + 1);
+                return collapsingIndex + 1;
             }
         }
     }
