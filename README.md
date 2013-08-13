@@ -10,6 +10,13 @@ Try out the [sample application ][2].
 
 ![Demo application screenshot][1]
 
+Real world apps
+==================
+
+The real world [app][4] that uses RoboAccordionView:
+
+![Real world app screenshot][3]
+
 Usage
 =====
 
@@ -172,3 +179,5 @@ License
 
 [1]: https://raw.github.com/mpalka/RoboAccordionView/master/screenshots/demo-application.png
 [2]: https://raw.github.com/mpalka/RoboAccordionView/master/demo/RoboAccordionViewDemo/RoboAccordionViewDemo.apk
+[3]: https://raw.github.com/mpalka/RoboAccordionView/master/screenshots/real_world_app_screenshot.png
+[4]: https://play.google.com/store/apps/details?id=pl.rtproject.android.mniamo
