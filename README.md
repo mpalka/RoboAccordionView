@@ -13,7 +13,7 @@ Try out the [sample application ][2].
 Real world apps
 ==================
 
-The real world [app][4] that uses RoboAccordionView:
+So far the only the real world [app][4] that uses RoboAccordionView:
 
 ![Real world app screenshot][3]
 
