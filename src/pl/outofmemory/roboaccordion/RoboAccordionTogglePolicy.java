@@ -15,7 +15,7 @@ public interface RoboAccordionTogglePolicy {
      *
      * @return index of a view to be expanded on load
      */
-    public int getFirstViewToExpandIndex();
+    public int getFirstSegmentToExpandIndex();
 
     /**
      * This method should return an index of a segment that need to be expaned
@@ -25,5 +25,5 @@ public interface RoboAccordionTogglePolicy {
      * @param collapsingIndex - index of collapsing viw
      * @return an index of a segment to be expanded
      */
-    public int getNextViewToExpandIndex(int collapsingIndex);
+    public int getNextSegmentToExpandIndex(int collapsingIndex);
 }

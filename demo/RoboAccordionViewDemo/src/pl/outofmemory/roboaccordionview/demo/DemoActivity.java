@@ -102,12 +102,12 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
     private class CustomAccordionTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getFirstViewToExpandIndex() {
+        public int getFirstSegmentToExpandIndex() {
             return 0;
         }
 
         @Override
-        public int getNextViewToExpandIndex(int collapsingIndex) {
+        public int getNextSegmentToExpandIndex(int collapsingIndex) {
             switch (collapsingIndex) {
                 case 0:
                     return 1;

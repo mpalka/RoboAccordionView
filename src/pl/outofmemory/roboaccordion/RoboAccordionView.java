@@ -102,7 +102,7 @@ public class RoboAccordionView extends LinearLayout {
         View headerView = mAccordionAdapter.getHeaderView(index);
         mRootLayout.addView(headerView, new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 0));
         View contentView = mAccordionAdapter.getContentView(index);
-        if (mCurrentTogglePolicy.getFirstViewToExpandIndex() == index) {
+        if (mCurrentTogglePolicy.getFirstSegmentToExpandIndex() == index) {
             contentView.setVisibility(View.VISIBLE);
             mPanelExpanded = contentView;
         } else {
@@ -120,7 +120,7 @@ public class RoboAccordionView extends LinearLayout {
             mFillerView.setTag(-1);
             mFillerView.setBackgroundResource(android.R.color.transparent);
             mRootLayout.addView(mFillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
-            if (mCurrentTogglePolicy.getFirstViewToExpandIndex() == -1) {
+            if (mCurrentTogglePolicy.getFirstSegmentToExpandIndex() == -1) {
                 mFillerView.setVisibility(View.VISIBLE);
                 mPanelExpanded = mFillerView;
             } else {
@@ -146,7 +146,7 @@ public class RoboAccordionView extends LinearLayout {
     /**
      * Set the listener that will be notified about the changes
      * in the RoboAccordionView. The listener will be notified
-     * prior and after any section is expanded and collapsed.
+     * prior and after any segment is expanded and collapsed.
      * Only a single listener can be supported. Call this method
      * with null parameter to remove the listener.
      *
@@ -248,7 +248,7 @@ public class RoboAccordionView extends LinearLayout {
                     v.startAnimation(a);
                 } else {
                     //check next view to be expanded based on the toggle policy
-                    int nextToExpand = mCurrentTogglePolicy.getNextViewToExpandIndex(mClickedSegmentIndex);
+                    int nextToExpand = mCurrentTogglePolicy.getNextSegmentToExpandIndex(mClickedSegmentIndex);
                     View viewToBeExpanded;
                     //if next index equals -1 then use the filler view
                     if (nextToExpand != -1) {
@@ -309,14 +309,14 @@ public class RoboAccordionView extends LinearLayout {
     private class HistoryTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getFirstViewToExpandIndex() {
+        public int getFirstSegmentToExpandIndex() {
             return 0;
         }
 
         @Override
-        public int getNextViewToExpandIndex(int collapsingIndex) {
+        public int getNextSegmentToExpandIndex(int collapsingIndex) {
             if (mPreviouslyExpandedIndex == -1) {
-                return NEXTPREV_TOGGLE_POLICY.getNextViewToExpandIndex(collapsingIndex);
+                return NEXTPREV_TOGGLE_POLICY.getNextSegmentToExpandIndex(collapsingIndex);
             }
             return mPreviouslyExpandedIndex;
         }
@@ -325,12 +325,12 @@ public class RoboAccordionView extends LinearLayout {
     private class FillerTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getFirstViewToExpandIndex() {
+        public int getFirstSegmentToExpandIndex() {
             return 0;
         }
 
         @Override
-        public int getNextViewToExpandIndex(int collapsingIndex) {
+        public int getNextSegmentToExpandIndex(int collapsingIndex) {
             return -1;
         }
     }
@@ -338,16 +338,16 @@ public class RoboAccordionView extends LinearLayout {
     private class NextPreviousTogglePolicy implements RoboAccordionTogglePolicy {
 
         @Override
-        public int getFirstViewToExpandIndex() {
+        public int getFirstSegmentToExpandIndex() {
             return 0;
         }
 
         @Override
-        public int getNextViewToExpandIndex(int collapsingIndex) {
-            if (collapsingIndex == mAccordionAdapter.getSegmentCount() - 1) {
-                return collapsingIndex - 1;
+        public int getNextSegmentToExpandIndex(int collapsingSegmentIndex) {
+            if (collapsingSegmentIndex == mAccordionAdapter.getSegmentCount() - 1) {
+                return collapsingSegmentIndex - 1;
             } else {
-                return collapsingIndex + 1;
+                return collapsingSegmentIndex + 1;
             }
         }
     }

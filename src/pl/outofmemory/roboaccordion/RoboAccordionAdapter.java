@@ -35,8 +35,8 @@ public interface RoboAccordionAdapter {
 
     /**
      * Returns a view that will be displayed as one of accordion's
-     * section header. By tapping onto the header the content view of the
-     * section will either expand or collapse.
+     * segment header. By tapping onto the header the content view of the
+     * segment will either expand or collapse.
      * The header view should not provide any
      * clickable elements as it may interfere with the OnClickListener
      * set on the header by the RoboAccordionView code.
@@ -47,7 +47,7 @@ public interface RoboAccordionAdapter {
 
     /**
      * Returns a view that will be displayed as one of accordion's
-     * section content. The content will be either expanded or collapsed
+     * segment content. The content will be either expanded or collapsed
      * by tapping onto respective header view.
      *
      * @return a view for a accordion segment content
