@@ -15,7 +15,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="RoboAccordionView" exported="" />
+    <orderEntry type="library" exported="" name="roboaccordionview-lib" level="project" />
   </component>
 </module>
 
