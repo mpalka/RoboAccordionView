@@ -16,7 +16,6 @@
 
 package pl.outofmemory.roboaccordion;
 
-import android.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -44,7 +43,7 @@ public class RoboAccordionView extends LinearLayout {
 
     private RoboAccordionAdapter mAccordionAdapter;
     private RoboAccordionStateListener mListener;
-    private LinearLayout mRootLayout;
+    private final LinearLayout mRootLayout;
     private TextView mFillerView;
     private View mPanelExpanded;
     private boolean mAccordionAnimating;
@@ -119,7 +118,7 @@ public class RoboAccordionView extends LinearLayout {
         if (index == mAccordionAdapter.getSegmentCount() - 1) {
             mFillerView = new TextView(getContext());
             mFillerView.setTag(-1);
-            mFillerView.setBackgroundResource(R.color.transparent);
+            mFillerView.setBackgroundResource(android.R.color.transparent);
             mRootLayout.addView(mFillerView, new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1));
             if (mCurrentTogglePolicy.getFirstViewToExpandIndex() == -1) {
                 mFillerView.setVisibility(View.VISIBLE);
@@ -226,8 +225,8 @@ public class RoboAccordionView extends LinearLayout {
 
     private class AccordionHeaderOnClickListener implements View.OnClickListener {
 
-        private View mToggleView;
-        private int mClickedSegmentIndex;
+        private final View mToggleView;
+        private final int mClickedSegmentIndex;
 
         private AccordionHeaderOnClickListener(View toggleView, int clickedSegmentIndex) {
 
@@ -250,7 +249,7 @@ public class RoboAccordionView extends LinearLayout {
                 } else {
                     //check next view to be expanded based on the toggle policy
                     int nextToExpand = mCurrentTogglePolicy.getNextViewToExpandIndex(mClickedSegmentIndex);
-                    View viewToBeExpanded = null;
+                    View viewToBeExpanded;
                     //if next index equals -1 then use the filler view
                     if (nextToExpand != -1) {
                         viewToBeExpanded = mContentViews.get(nextToExpand);
@@ -270,8 +269,8 @@ public class RoboAccordionView extends LinearLayout {
 
         private class AccordionAnimationListener implements Animation.AnimationListener {
 
-            private View mExpandingView;
-            private View mCollapsingView;
+            private final View mExpandingView;
+            private final View mCollapsingView;
             private int mCollapsingSegmentIndex = -1;
             private int mExpandingSegmentIndex = -1;
 

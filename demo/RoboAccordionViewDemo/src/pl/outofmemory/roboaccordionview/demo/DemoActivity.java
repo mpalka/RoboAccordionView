@@ -19,12 +19,8 @@ import pl.outofmemory.roboaccordion.RoboAccordionView;
  * Created by Marcin Palka on 11.08.2013.
  */
 public class DemoActivity extends Activity implements RoboAccordionAdapter, RoboAccordionStateListener {
-    private RoboAccordionView accordionView;
-    private View firstContentView;
-    private View secondContentView;
-    private View thirdContentView;
 
-    private String[] capitals = new String[]{"Athens", "Berlin", "London",
+    private final String[] capitals = new String[]{"Athens", "Berlin", "London",
             "Helsinki", "Copenhagen", "Warsaw",
             "Stockholm", "Oslo", "Prague",
             "Budapest", "Paris", "Moscow",
@@ -33,7 +29,7 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        accordionView = (RoboAccordionView) findViewById(R.id.accordion);
+        RoboAccordionView accordionView = (RoboAccordionView) findViewById(R.id.accordion);
         accordionView.setAccordionAdapter(this);
         accordionView.setListener(this);
         accordionView.setAnimDuration(300);
@@ -74,14 +70,12 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
                 view = new TextView(this);
                 TextView tv1 = (TextView) view;
                 tv1.setText(String.format("Content %d", index));
-                firstContentView = view;
                 break;
             case 1:
                 view = new TextView(this);
                 view.setBackgroundResource(R.color.light_green);
                 TextView tv2 = (TextView) view;
                 tv2.setText(String.format("Content %d", index));
-                secondContentView = view;
                 break;
             case 2:
                 view = new ListView(this);
@@ -90,7 +84,6 @@ public class DemoActivity extends Activity implements RoboAccordionAdapter, Robo
                 lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                 lv.setCacheColorHint(Color.TRANSPARENT);
                 view.setBackgroundResource(R.color.light_blue);
-                thirdContentView = view;
                 break;
         }
         return view;
