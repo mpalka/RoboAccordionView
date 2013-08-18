@@ -17,7 +17,9 @@
 package pl.outofmemory.roboaccordion;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -55,6 +57,7 @@ public class RoboAccordionView extends LinearLayout {
     private final RoboAccordionTogglePolicy HISTORY_TOGGLE_POLICY = new HistoryTogglePolicy();
     private final RoboAccordionTogglePolicy FILLER_TOGGLE_POLICY = new FillerTogglePolicy();
     private final RoboAccordionTogglePolicy NEXTPREV_TOGGLE_POLICY = new NextPreviousTogglePolicy();
+    private static final int currentApiVersion = Build.VERSION.SDK_INT;
 
 
     /**
@@ -69,6 +72,9 @@ public class RoboAccordionView extends LinearLayout {
         mRootLayout = new LinearLayout(getContext());
         mRootLayout.setOrientation(VERTICAL);
         addView(mRootLayout, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mRootLayout.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }
     }
 
     /**
@@ -96,6 +102,7 @@ public class RoboAccordionView extends LinearLayout {
     }
 
     private void addSegment(int index) {
+        Log.i("RoboAccordionView", "mRootLayout.getMeasuredHeight()=" + mRootLayout.getMeasuredHeight());
         if (mAccordionAdapter == null) {
             throw new IllegalStateException("No adapter has been set");
         }
@@ -238,32 +245,26 @@ public class RoboAccordionView extends LinearLayout {
         public void onClick(View v) {
             if (!mAccordionAnimating) {
                 mAccordionAnimating = true;
+                View viewToBeExpanded = null;
                 if (mPanelExpanded != mToggleView) {
-                    Animation a = new ExpandAnimation(0, mPanelExpanded
-                            .getMeasuredHeight(), mToggleView,
-                            mPanelExpanded);
-                    a.setDuration(mAnimDuration);
-                    a.setAnimationListener(new AccordionAnimationListener(
-                            mToggleView, mPanelExpanded));
-                    v.startAnimation(a);
+                    viewToBeExpanded = mToggleView;
                 } else {
                     //check next view to be expanded based on the toggle policy
                     int nextToExpand = mCurrentTogglePolicy.getNextSegmentToExpandIndex(mClickedSegmentIndex);
-                    View viewToBeExpanded;
                     //if next index equals -1 then use the filler view
                     if (nextToExpand != -1) {
                         viewToBeExpanded = mContentViews.get(nextToExpand);
                     } else {
                         viewToBeExpanded = mFillerView;
                     }
-                    Animation a = new ExpandAnimation(0, mPanelExpanded
-                            .getMeasuredHeight(), viewToBeExpanded,
-                            mPanelExpanded);
-                    a.setDuration(mAnimDuration);
-                    a.setAnimationListener(new AccordionAnimationListener(
-                            viewToBeExpanded, mPanelExpanded));
-                    v.startAnimation(a);
                 }
+                Animation a = new ExpandAnimation(0, mPanelExpanded
+                        .getMeasuredHeight(), viewToBeExpanded,
+                        mPanelExpanded);
+                a.setDuration(mAnimDuration);
+                a.setAnimationListener(new AccordionAnimationListener(
+                        viewToBeExpanded, mPanelExpanded));
+                v.startAnimation(a);
             }
         }
 
