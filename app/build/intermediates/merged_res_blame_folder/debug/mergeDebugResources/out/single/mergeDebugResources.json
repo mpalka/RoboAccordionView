@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "pl.outofmemory.roboaccordionview.demo.app-debug-44:/drawable-mdpi_ic_launcher.png.flat",
+        "source": "pl.outofmemory.roboaccordionview.demo.app-main-46:/drawable-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "pl.outofmemory.roboaccordionview.demo.app-debug-44:/drawable-hdpi_ic_launcher.png.flat",
+        "source": "pl.outofmemory.roboaccordionview.demo.app-main-46:/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "pl.outofmemory.roboaccordionview.demo.app-debug-44:/drawable-ldpi_ic_launcher.png.flat",
+        "source": "pl.outofmemory.roboaccordionview.demo.app-main-46:/drawable-ldpi/ic_launcher.png"
+    },
+    {
+        "merged": "pl.outofmemory.roboaccordionview.demo.app-debug-44:/drawable-xhdpi_ic_launcher.png.flat",
+        "source": "pl.outofmemory.roboaccordionview.demo.app-main-46:/drawable-xhdpi/ic_launcher.png"
+    }
+]

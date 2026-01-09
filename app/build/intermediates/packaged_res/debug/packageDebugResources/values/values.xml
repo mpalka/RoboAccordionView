@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_blue">#0000AA</color>
+    <color name="dark_green">#88FF88</color>
+    <color name="dark_red">#FF8888</color>
+    <color name="light_blue">#8888FF</color>
+    <color name="light_green">#00AA00</color>
+    <color name="light_red">#AA0000</color>
+    <color name="lv_color_hint">#00000000</color>
+    <string name="app_name">Robo AccordionView Demo</string>
+</resources>
