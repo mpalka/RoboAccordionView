@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(capitals: List<String>) {
     var selectedTab by remember { mutableStateOf(0) }
-    val tabs = listOf("Standard", "Fixed Height")
+    val tabs = listOf("Standard", "Fixed Height", "Full Height")
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -78,6 +78,7 @@ fun MainScreen(capitals: List<String>) {
             when (selectedTab) {
                 0 -> StandardDemo(capitals)
                 1 -> FixedHeightDemo(capitals)
+                2 -> FullHeightDemo(capitals)
             }
         }
     }
@@ -127,6 +128,33 @@ fun FixedHeightDemo(capitals: List<String>) {
         
         Spacer(modifier = Modifier.height(16.dp))
         Text("Content below logic...")
+    }
+}
+
+@Composable
+fun FullHeightDemo(capitals: List<String>) {
+    val sections = getDemoSections()
+    var expandedIndex by remember { mutableStateOf<Int?>(null) }
+
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Text("This container fills the entire remaining height.", modifier = Modifier.padding(bottom = 8.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f) // Fill remaining space
+                .border(2.dp, MaterialTheme.colorScheme.secondary)
+                .verticalScroll(rememberScrollState())
+                .padding(4.dp)
+        ) {
+            AccordionView(
+                items = sections,
+                expandedIndex = expandedIndex,
+                onExpandedIndexChange = { expandedIndex = it },
+                headerContent = { item, isExpanded -> HeaderItem(item) },
+                bodyContent = { item -> BodyItem(item, capitals) }
+            )
+        }
     }
 }
 
