@@ -4,7 +4,9 @@ A modern, Jetpack Compose-based Accordion component for Android, implementing Ma
 
 Previously a Java/View-based library (2013), now fully modernized for 2026.
 
-![Demo Application](screenshots/demo-application.png)
+| Standard | Fixed Height |
+|----------|--------------|
+| ![Standard Demo](screenshots/demo-application-standard.png) | ![Fixed Height Demo](screenshots/demo-application-fixed.png) |
 
 ## Features
 
