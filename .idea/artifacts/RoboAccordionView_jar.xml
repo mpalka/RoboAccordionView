@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="roboaccordionview:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/roboaccordionview_jar</output-path>
-    <root id="archive" name="roboaccordionview.jar">
-      <element id="module-output" name="RoboAccordionView" />
-    </root>
-  </artifact>
-</component>

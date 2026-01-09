@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="roboaccordionview-lib">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/demo/RoboAccordionViewDemo/libs/roboaccordionview.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
