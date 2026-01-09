@@ -49,6 +49,10 @@ AccordionView(
 The old Java `RoboAccordionView` has been removed in favor of the Composable version.
 If you need the old View-based implementation, please stick to version 0.1 (or check out previous git tags).
 
+## Author
+
+Marcin Palka
+
 ## License
 
 Apache License 2.0
