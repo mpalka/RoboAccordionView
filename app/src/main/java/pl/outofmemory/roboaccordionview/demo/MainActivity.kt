@@ -135,24 +135,29 @@ fun FixedHeightDemo(capitals: List<String>) {
 fun FullHeightDemo(capitals: List<String>) {
     val sections = getDemoSections()
     var expandedIndex by remember { mutableStateOf<Int?>(null) }
+    // Match the default container color of AccordionView (Surface)
+    val containerColor = MaterialTheme.colorScheme.surface
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("This container fills the entire remaining height.", modifier = Modifier.padding(bottom = 8.dp))
 
+        // Wrapper Box acts as the "Full Height" background for the accordion
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f) // Fill remaining space
                 .border(2.dp, MaterialTheme.colorScheme.secondary)
+                .background(containerColor) // Visually extend accordion background
                 .verticalScroll(rememberScrollState())
-                .padding(4.dp)
         ) {
             AccordionView(
+                modifier = Modifier.fillMaxWidth(), // Fill width
                 items = sections,
                 expandedIndex = expandedIndex,
                 onExpandedIndexChange = { expandedIndex = it },
                 headerContent = { item, isExpanded -> HeaderItem(item) },
-                bodyContent = { item -> BodyItem(item, capitals) }
+                bodyContent = { item -> BodyItem(item, capitals) },
+                containerColor = Color.Transparent // Let wrapper background show through
             )
         }
     }
